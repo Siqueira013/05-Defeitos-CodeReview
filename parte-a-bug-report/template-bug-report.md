@@ -1,137 +1,113 @@
-# 🐛 Bug Reports — Parte A
-
-> Preencha uma seção completa para cada defeito encontrado. O mínimo
-> exigido é **3 bug reports**. Apague este bloco antes de entregar.
-
-**Dupla:** [Nome 1 + RA] + [Nome 2 + RA]
-**Data da exploração:** [DD/MM/AAAA]
-**Navegador usado:** [Chrome 121 / Firefox 122 / Safari 17 / …]
-**Sistema operacional:** [Windows 11 / macOS 14 / Ubuntu 22.04 / …]
+**Dupla:** Guilherme Siqueira + 227421 | Patrick Santos + 225469
+**Data da exploração:** 23/04/2026
+**Navegador usado:** Chrome 121
+**Sistema operacional:** Windows 10
 
 ---
 
-## BUG-001
 
-**Título:** [CONTEXTO] Descrição específica e acionável do problema
 
-**Severidade:** Crítica | Alta | Média | Baixa
-**Justificativa da severidade:** (1-2 frases explicando o impacto técnico)
+## BUG-01
 
-**Prioridade:** P1 | P2 | P3 | P4
-**Justificativa da prioridade:** (1-2 frases explicando a urgência de negócio)
+**Título:** [VALIDAÇÃO] Sistema permite criar tarefa sem título
+
+**Severidade:** Média
+**Justificativa da severidade:** Permite cadastro de dados inválidos, prejudicando a usabilidade e organização das tarefas.
+
+**Prioridade:** P2
+**Justificativa da prioridade:** Afeta a qualidade dos dados, mas não impede o funcionamento do sistema.
 
 **Ambiente:**
-- Navegador: [ex.: Chrome 121.0]
-- Sistema Operacional: [ex.: Windows 11]
+- Navegador: Chrome 121.0
+- Sistema Operacional: Windows 11
 - Versão da aplicação: TarefaQS v1.0.0
 
 **Passos para reprodução:**
-1. Passo numerado e objetivo
-2. Outro passo claro o suficiente para qualquer pessoa reproduzir
-3. ...
+1. Acessar o sistema
+2. Deixar o campo "título" vazio
+3. Preencher os outros campos (ou não)
+4. Clicar em "Adicionar tarefa"
 
 **Resultado esperado:**
-[O que deveria acontecer segundo o comportamento desejado.]
+O sistema deveria impedir a criação da tarefa e exibir uma mensagem de erro.
 
 **Resultado obtido:**
-[O que efetivamente acontece.]
+A tarefa é criada mesmo sem título.
 
 **Evidência:**
-![Descrição da evidência](evidencias/bug-001-captura.png)
-
-> Se preferir anexar um GIF ou arquivo de log, crie uma pasta
-> `evidencias/` ao lado deste arquivo e referencie o arquivo aqui.
-
-**Sugestão de causa raiz (opcional):**
-[Palpite informado — útil para quem vai corrigir.]
+js
+const titulo = inputTitulo.value.trim();
+// Não há validação antes de criar a tarefa
 
 ---
 
-## BUG-002
+## BUG-02
 
-**Título:**
+**Título:** [LÓGICA] Contagem de tarefas pendentes está incorreta (duplicação de tarefas urgentes)
 
-**Severidade:**
-**Justificativa da severidade:**
+**Severidade:** Média
+**Justificativa da severidade:** O sistema apresenta dados incorretos ao usuário, impactando a confiabilidade das informações exibidas.
 
-**Prioridade:**
-**Justificativa da prioridade:**
+**Prioridade:** P2
+**Justificativa da prioridade:** Não impede o uso, mas compromete a precisão das estatísticas.
 
 **Ambiente:**
-- Navegador:
-- Sistema Operacional:
+- Navegador: Chrome 121.0
+- Sistema Operacional: Windows 11
 - Versão da aplicação: TarefaQS v1.0.0
 
 **Passos para reprodução:**
-1.
-2.
-3.
+1. Criar uma tarefa com prioridade 5
+2. Garantir que ela não esteja concluída
+3. Observar o contador de tarefas pendentes
 
 **Resultado esperado:**
+A tarefa deveria ser contabilizada apenas uma vez como pendente.
 
 **Resultado obtido:**
+A tarefa é contabilizada duas vezes, pois tarefas urgentes são somadas novamente.
 
 **Evidência:**
+js
+let pendentes = tarefas.filter(function(t) { return !t.concluida; }).length;
 
-**Sugestão de causa raiz (opcional):**
+const urgentes = tarefas.filter(function(t) {
+  return t.prioridade === 5 && !t.concluida;
+}).length;
+
+pendentes = pendentes + urgentes;
 
 ---
 
-## BUG-003
 
-**Título:**
+## BUG-03
 
-**Severidade:**
-**Justificativa da severidade:**
+**Título:** [UX] Formulário não é limpo após adicionar uma tarefa
 
-**Prioridade:**
-**Justificativa da prioridade:**
+**Severidade:** Baixa
+**Justificativa da severidade:** Não impede o uso do sistema, mas prejudica a experiência do usuário ao exigir limpeza manual dos campos.
+
+**Prioridade:** P3
+**Justificativa da prioridade:** Problema de usabilidade com baixo impacto funcional.
 
 **Ambiente:**
-- Navegador:
-- Sistema Operacional:
+- Navegador: Chrome 121.0
+- Sistema Operacional: Windows 11
 - Versão da aplicação: TarefaQS v1.0.0
 
 **Passos para reprodução:**
-1.
-2.
-3.
+1. Preencher o formulário de criação de tarefa
+2. Clicar em "Adicionar tarefa"
+3. Observar os campos do formulário
 
 **Resultado esperado:**
+O formulário deveria ser limpo automaticamente após a criação da tarefa.
 
 **Resultado obtido:**
+Os campos permanecem preenchidos após o envio.
 
 **Evidência:**
-
-**Sugestão de causa raiz (opcional):**
-
----
-
-<!-- Para reports adicionais, copie o bloco acima trocando o número. -->
+js
+// form.reset();
 
 ---
-
-## ✅ Critérios de qualidade do bug report
-*(Use para conferir antes de entregar)*
-
-- [ ] Título descritivo — outra pessoa entende o problema só pelo título?
-- [ ] Passos são **numerados** e **reproduzíveis** por terceiros?
-- [ ] Há **pelo menos uma evidência** (screenshot, GIF ou log)?
-- [ ] Severidade tem **justificativa explícita**?
-- [ ] Prioridade tem **justificativa explícita**?
-- [ ] Ambiente inclui **navegador + SO**?
-- [ ] "Esperado vs. Obtido" deixa o gap claro?
-
-## ✅ Checklist de qualidade dos reports
-
-Antes de submeter, confirme em cada report:
-
-- [ ] Título é específico e acionável (não `"Não funciona"`).
-- [ ] Passos estão **numerados** e são reproduzíveis por terceiros.
-- [ ] Há **pelo menos uma evidência** por report (imagem, GIF ou log).
-- [ ] Severidade tem **justificativa explícita**.
-- [ ] Prioridade tem **justificativa explícita**.
-- [ ] Ambiente inclui **navegador + SO**.
-- [ ] "Esperado × Obtido" deixa a diferença clara.
-- [ ] Os 3 defeitos reportados cobrem **categorias diferentes**
-      (funcional, UX, validação, persistência, etc.)
